@@ -1,6 +1,6 @@
 # TaskLoader
 
-Automatic to load tasks, dispatch them to multipy threads to process it.
+Automatic to load tasks, dispatch them to multiple threads to process it.
     
 ## Features
 
@@ -9,10 +9,27 @@ Automatic to load tasks, dispatch them to multipy threads to process it.
 
 ## Usage
 
-Only need two steps, see follow.
+## maven
+
+```xml
+<repositories>
+	<repository>
+	    <id>jitpack.io</id>
+	    <url>https://jitpack.io</url>
+	</repository>
+</repositories>
+```
+
+```xml
+<dependency>
+    <groupId>com.github.llxxbb</groupId>
+    <artifactId>TaskLoader</artifactId>
+    <version>0.2.1</version>
+</dependency>
+```
 
 ### First : implement `TaskProcesser<T>` interface
-    
+
 ```java
 public interface TaskProcesser<T> {
     /**
@@ -42,7 +59,7 @@ Suppose we had implemented it and name it `MyProcesser`, whtch can process `MyTa
     TaskLooper myLooper =  new TaskLooperImpl<MyTask>(myProcesser, cfg);
 
 ```
-    
+
 Then `myLooper` will automatically fetch and process the tasks.
 
 ### Adjust at runtime.
