@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.llxxbb</groupId>
-    <artifactId>task-loader</artifactId>
-    <version>0.1</version>
+    <artifactId>TaskLoader</artifactId>
+    <version>0.2.1</version>
 
     <properties>
         <ver.scala>2.12.8</ver.scala>
