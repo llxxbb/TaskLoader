@@ -1,11 +1,11 @@
 # TaskLoader
 
-Automatic to load tasks, dispatch them to multiple threads to process it.
+Automatic to load tasks, dispatch them to multiple threads to process them.
     
 ## Features
 
-- Don't worry about how often and how many tasks will be load
-- Configurations can be changed at run time.
+- Because of auto loading, no queue, so no blocking problems.
+- Configurations can be changed at run time, include thread number, idle time, load size, stop it or run it.
 
 ## Usage
 
