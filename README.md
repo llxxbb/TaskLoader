@@ -4,7 +4,7 @@ Automatic to load tasks, dispatch them to multiple threads to process them.
     
 ## Features
 
-- Because of auto loading, no queue, so no blocking problems.
+- Pull tasks but no push tasks, so no blocking problems.
 - Configurations can be changed at run time, include thread number, idle time, load size, stop it or run it.
 
 ## Usage
