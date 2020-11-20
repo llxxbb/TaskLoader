@@ -12,19 +12,10 @@ Automatic to load tasks, dispatch them to multiple threads to process them.
 ## maven
 
 ```xml
-<repositories>
-	<repository>
-	    <id>jitpack.io</id>
-	    <url>https://jitpack.io</url>
-	</repository>
-</repositories>
-```
-
-```xml
 <dependency>
-    <groupId>com.github.llxxbb</groupId>
-    <artifactId>TaskLoader</artifactId>
-    <version>0.2.1</version>
+  <groupId>io.github.llxxbb</groupId>
+  <artifactId>TaskLoader</artifactId>
+  <version>0.2.2</version>
 </dependency>
 ```
 

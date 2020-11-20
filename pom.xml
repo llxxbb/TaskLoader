@@ -6,7 +6,7 @@
 
     <groupId>io.github.llxxbb</groupId>
     <artifactId>TaskLoader</artifactId>
-    <version>0.2.1</version>
+    <version>0.2.2</version>
     <name>${project.groupId}:${project.artifactId}</name>
     <description>Automatic to load tasks, dispatch them to multiple threads to process them.</description>
     <url>https://github.com/llxxbb/TaskLoader</url>
