@@ -62,3 +62,13 @@ Through which we can stop and restart the tasks process, do other things like:
     - change the size of the tasks for one fetch.
     - how long to sleep when idle
 
+## ChangeLog
+
+### 0.2.3
+
+- let exception do dot break the task loop
+- ignore the tasks which occur error.
+
+### 0.2.2 
+
+The first release

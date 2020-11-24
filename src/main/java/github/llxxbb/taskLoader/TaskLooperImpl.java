@@ -18,13 +18,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class TaskLooperImpl<T> implements TaskLooper {
 
-    private TaskProcesser<T> processer;
+    private final TaskProcesser<T> processer;
     private TaskLooperConfig cfg;
     private ExecutorService works;
-    private LinkedBlockingQueue<Runnable> workQueue;
-    private static Logger logger = LoggerFactory.getLogger(TaskLooperImpl.class);
-    private AtomicBoolean terminate = new AtomicBoolean(false);
-    private AtomicBoolean loopQuited = new AtomicBoolean(false);
+    private final LinkedBlockingQueue<Runnable> workQueue;
+    private static final Logger logger = LoggerFactory.getLogger(TaskLooperImpl.class);
+    private final AtomicBoolean terminate = new AtomicBoolean(false);
 
     public TaskLooperImpl(TaskProcesser<T> processer, TaskLooperConfig cfg) throws Exception {
         if (cfg == null) throw new Exception("cfg can't be null");
@@ -80,16 +79,13 @@ public class TaskLooperImpl<T> implements TaskLooper {
             }
             works.shutdownNow();
         }
-        if (!loopQuited.get()) {
-            terminate.set(true);
-            while (terminate.get()) {
-                sleep();
-            }
+        terminate.set(true);
+        while (terminate.get()) {
+            sleep();
         }
     }
 
     private void myLoop() {
-        loopQuited.set(false);
         int queueLen = cfg.getThreadNum() * 2;
         while (true) {
             // process command
@@ -106,13 +102,12 @@ public class TaskLooperImpl<T> implements TaskLooper {
                 continue;
             }
             // get tasks
-            List<T> tasks;
+            List<T> tasks = null;
             try {
                 tasks = processer.getTasks(cfg.getLimit());
-            } catch (Exception e) {
-                logger.error("    **** Get tasks occurs error ****", e);
-                loopQuited.set(true);
-                break;
+            } catch (Throwable e) {
+                logger.warn("    **** Get tasks occurs error ****", e);
+                sleep();
             }
             if (tasks == null || tasks.isEmpty()) {
                 sleep();
@@ -122,9 +117,8 @@ public class TaskLooperImpl<T> implements TaskLooper {
             for (T t : tasks) {
                 try {
                     works.submit(() -> processer.doTask(t));
-                } catch (Exception e) {
+                } catch (Throwable e) {
                     logger.warn("", e);
-                    break;
                 }
             }
         }

@@ -25,7 +25,7 @@ class TaskLooperImplTest extends FunSuite with MockFactory {
     new TaskLooperImpl[String](processer, new TaskLooperConfig)
     Thread.sleep(100)
   }
-  test("load error after one load, logout can see hello exception") {
+  ignore("load error after one load, logout can see hello exception") {
     (processer.getTasks _).expects(100).returning(List("A", "B", "C").asJava)
     (processer.doTask _).expects("A")
     (processer.doTask _).expects("B")
