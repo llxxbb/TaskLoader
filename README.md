@@ -15,7 +15,7 @@ Automatic to load tasks, dispatch them to multiple threads to process them.
 <dependency>
   <groupId>io.github.llxxbb</groupId>
   <artifactId>TaskLoader</artifactId>
-  <version>0.2.2</version>
+  <version>0.2.3</version>
 </dependency>
 ```
 
