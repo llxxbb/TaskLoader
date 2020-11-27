@@ -28,7 +28,7 @@ public class TaskLooperImpl<T> implements TaskLooper {
     public TaskLooperImpl(TaskProcesser<T> processer, TaskLooperConfig cfg) throws Exception {
         if (cfg == null) throw new Exception("cfg can't be null");
         this.processer = processer;
-        workQueue = new LinkedBlockingQueue<>();
+        workQueue = new LinkedBlockingQueue<>(cfg.queueLen);
         this.cfg = cfg.clone();
         if (cfg.cmd == TaskCommand.STOP) {
             return;
@@ -38,10 +38,11 @@ public class TaskLooperImpl<T> implements TaskLooper {
 
     private void start() {
         logger.info("--------------looper starting------------------");
-        logger.info(" thread num : " + cfg.getThreadNum());
-        logger.info(" load limit : " + cfg.getLimit());
-        logger.info(" idle sleep : " + cfg.idleTime + "(ms)");
-        logger.info(" cmd        : " + cfg.cmd.toString());
+        logger.info(" thread num  : " + cfg.getThreadNum());
+        logger.info(" load limit  : " + cfg.getLimit());
+        logger.info(" queue limit : " + cfg.queueLen);
+        logger.info(" idle sleep  : " + cfg.idleTime + "(ms)");
+        logger.info(" cmd         : " + cfg.cmd.toString());
         works = new ThreadPoolExecutor(cfg.getThreadNum(), cfg.getThreadNum(),
                 0L, TimeUnit.MILLISECONDS, workQueue);
         Thread loopThread = new Thread(this::myLoop);
@@ -86,7 +87,6 @@ public class TaskLooperImpl<T> implements TaskLooper {
     }
 
     private void myLoop() {
-        int queueLen = cfg.getThreadNum() * 2;
         while (true) {
             // process command
             if (terminate.get()) {
@@ -96,7 +96,7 @@ public class TaskLooperImpl<T> implements TaskLooper {
             }
             // check unprocessed
             int size = workQueue.size();
-            if (size > queueLen) {
+            if (size > cfg.queueLen) {
                 logger.warn("  There is a backlog of data in the queue");
                 sleep();
                 continue;

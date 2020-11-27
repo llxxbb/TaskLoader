@@ -15,7 +15,7 @@ Automatic to load tasks, dispatch them to multiple threads to process them.
 <dependency>
   <groupId>io.github.llxxbb</groupId>
   <artifactId>TaskLoader</artifactId>
-  <version>0.2.3</version>
+  <version>0.2.4</version>
 </dependency>
 ```
 
@@ -64,7 +64,11 @@ Through which we can stop and restart the tasks process, do other things like:
 
 ## ChangeLog
 
-### 0.2.3
+### 0.2.4 2020-11-27
+
+- add `queueLen` property to `TaskLooperConfig`
+
+### 0.2.3 2020-11-24
 
 - let exception do dot break the task loop
 - ignore the tasks which occur error.

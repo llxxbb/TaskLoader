@@ -5,6 +5,14 @@ package github.llxxbb.taskLoader;
  * Configuration for `TaskLooper`
  */
 public class TaskLooperConfig implements Cloneable {
+
+    /**
+     * The max number of tasks can be hold by the queue.
+     * If the tasks number is over it, `TaskLoader` will sleep
+     * until the number below it.
+     */
+    public int queueLen = 1000;
+
     public TaskCommand cmd = TaskCommand.RUN;
     /**
      * how many milliseconds to sleep when ther is no task.
