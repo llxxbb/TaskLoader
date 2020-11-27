@@ -7,7 +7,7 @@ Automatic to load tasks, dispatch them to multiple threads to process them.
 - Pull tasks but no push tasks, so no blocking problems.
 - Configurations can be changed at run time, include thread number, idle time, load size, stop it or run it.
 
-## Usage
+## Basic usage
 
 ## maven
 
@@ -62,11 +62,35 @@ Through which we can stop and restart the tasks process, do other things like:
     - change the size of the tasks for one fetch.
     - how long to sleep when idle
 
+## If your tasks based on id
+
+There is a convenient way : extends from `TaskProcessorIdBase`. Which embeds an instance of  `TaskLooper`  and help you hold the last id of your tasks.
+
+```
+public class MyProcessor extends TaskProcessorIdBase<MyTask>{
+    @Override
+    public List<MyTask> getTasks(int limit) {
+        // your code like follows
+        // ...
+        // List<MyTask> results = dao.get(getLastId());
+        // setLastId(results.size(), results.get(results.size()-1).id);
+        // return results;
+        // ...
+    }
+
+    @Override
+    public void doTask(MyTask task) {
+        // do your task logic
+    }
+}
+```
+
 ## ChangeLog
 
 ### 0.2.4 2020-11-27
 
 - add `queueLen` property to `TaskLooperConfig`
+- add a base implement for `TaskLooper`  that identified by id 
 
 ### 0.2.3 2020-11-24
 
