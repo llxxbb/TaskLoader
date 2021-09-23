@@ -15,7 +15,7 @@ Automatic to load tasks, dispatch them to multiple threads to process them.
 <dependency>
   <groupId>io.github.llxxbb</groupId>
   <artifactId>TaskLoader</artifactId>
-  <version>0.2.4</version>
+  <version>0.2.5</version>
 </dependency>
 ```
 
@@ -86,6 +86,10 @@ public class MyProcessor extends TaskProcessorIdBase<MyTask>{
 ```
 
 ## ChangeLog
+
+### 0.2.5 2021-08-31
+
+- fix: the tasks would be lost when queue is full.
 
 ### 0.2.4 2020-11-27
 

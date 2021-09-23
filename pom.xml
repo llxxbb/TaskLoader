@@ -6,7 +6,7 @@
 
     <groupId>io.github.llxxbb</groupId>
     <artifactId>TaskLoader</artifactId>
-    <version>0.2.4</version>
+    <version>0.2.5</version>
     <name>${project.groupId}:${project.artifactId}</name>
     <description>Automatic to load tasks, dispatch them to multiple threads to process them.</description>
     <url>https://github.com/llxxbb/TaskLoader</url>
@@ -49,6 +49,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
@@ -57,9 +58,6 @@
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

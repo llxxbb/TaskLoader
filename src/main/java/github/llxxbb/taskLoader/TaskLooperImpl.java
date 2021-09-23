@@ -4,10 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 
@@ -115,12 +112,23 @@ public class TaskLooperImpl<T> implements TaskLooper {
             }
             // run tasks
             for (T t : tasks) {
+                addToQueue(t);
+            }
+        }
+    }
+
+    private void addToQueue(T t) {
+        try {
+            while (true) {
                 try {
                     works.submit(() -> processer.doTask(t));
-                } catch (Throwable e) {
-                    logger.warn("", e);
+                    break;
+                } catch (RejectedExecutionException ignore) {
+                    sleep();
                 }
             }
+        } catch (Throwable e) {
+            logger.warn("", e);
         }
     }
 
