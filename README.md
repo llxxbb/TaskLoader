@@ -1,15 +1,14 @@
 # TaskLoader
 
-Automatic to load tasks, dispatch them to multiple threads to process them.
-    
+Automatic to load tasks by the capability of the process, and dispatches them to multiple threads to process them.    
 ## Features
 
-- Pull tasks but no push tasks, so no blocking problems.
+- Pull tasks but no push tasks to process, so no overload problem.
 - Configurations can be changed at run time, include thread number, idle time, load size, stop it or run it.
 
 ## Basic usage
 
-## maven
+### maven
 
 ```xml
 <dependency>
@@ -19,50 +18,39 @@ Automatic to load tasks, dispatch them to multiple threads to process them.
 </dependency>
 ```
 
-### First : implement `TaskProcesser<T>` interface
+### coding
 
-```java
-public interface TaskProcesser<T> {
-    /**
-     * Load task by "{@link TaskLooperImpl}"
-     * Attention: don't throw any `Exception`, which can break the loop of the process.
-     * @param limit the max task will be needed,
-     * @return tasks will be processed
-     */
-    List<T> getTasks(int limit);
+- First : implement `TaskProcesser<T>` interface.
 
-    /**
-     * Process one task
-     * @param task task will be processed
-     */
-    void doTask(T task);
-}
-```
-Suppose we had implemented it and name it `MyProcesser`, whtch can process `MyTask`.
+  - **getTasks()**: You can get your tasks by it. The backend will call this in a dead loop, no `Throwable` can breaks it. You can use a `cmd` which defined in `TaskLooperConfig ` to stop it.
+  - **doTask()**: use this to process your task. if `Throwable`occurs just ignore it.
 
-### Second : create instance of `TaskLooperImpl`
+- Second : create instance of `TaskLooperImpl` to start processing. 
 
-```java
-    TaskProcesser<MyTask> myProcesser = new MyProcesser();
-    TaskLooperConfig cfg = new TaskLooperConfig();
-    cfg.setThreadNum(16);
-    cfg.setLimit(100);
-    TaskLooper myLooper =  new TaskLooperImpl<MyTask>(myProcesser, cfg);
+  Suppose we had implemented `TaskProcesser<T>` as `MyProcesser`, which can process `MyTask`.
 
-```
+  ```java
+  TaskProcesser<MyTask> myProcesser = new MyProcesser();
+  TaskLooperConfig cfg = new TaskLooperConfig();
+  cfg.setThreadNum(16);
+  cfg.setLimit(100);
+  TaskLooper myLooper =  new TaskLooperImpl<MyTask>(myProcesser, cfg);
+  ```
 
-Then `myLooper` will automatically fetch and process the tasks.
+- enjoy!
 
-### Adjust at runtime.
+## Advanced usage
+
+### Adjust at runtime
 
 `TaskLooper` have a `setConfig` method which receive a `TaskLooperConfig` parameter.
-Through which we can stop and restart the tasks process, do other things like:
+Through which we can stop and restart the tasks process, and can do other things like:
 
     - change works thread number
     - change the size of the tasks for one fetch.
     - how long to sleep when idle
 
-## If your tasks based on id
+### If your tasks based on id
 
 There is a convenient way : extends from `TaskProcessorIdBase`. Which embeds an instance of  `TaskLooper`  and help you hold the last id of your tasks.
 
